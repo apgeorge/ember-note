@@ -7,20 +7,15 @@
  * Visit http://www.pragmaticprogrammer.com/titles/mwjsember for more book information.
 ***/
 import Ember from 'ember';
-import config from './config/environment';
 
-var Router = Ember.Router.extend({
-  location: config.locationType
+export default Ember.Route.extend({
+  model: function(params) {
+    return this.store.findRecord('note', params.note_id);
+  },
+  
+  actions: {
+    close: function() {
+      this.transitionTo('notebooks.notes');
+    }
+  }
 });
-
-Router.map(function() {
-  this.route('register');
-  this.route('login');
-  this.route('notebooks', { path:'notebooks/:user_id'}, function() {
-    this.route('notes', { path:'notes/:notebook_id'}, function(){
-      this.route('note', { path:'note/:note_id'},function(){});
-    });
-  });
-});
-
-export default Router;
